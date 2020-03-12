@@ -7,7 +7,7 @@
   display: block;
 
   @media screen and (max-width: 600px) {
-    
+
     &-thead {
       display: none;
     }
@@ -37,7 +37,7 @@
 
         &:last-child {
           border-bottom: 1px solid #eee;
-          
+
         }
       }
     }

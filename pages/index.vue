@@ -1,120 +1,128 @@
 <template>
-  <div>
-    <section id="authlogin" class="full-content">
-      <a-row>
-      <a-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20" offset="2">
-        <div id="auth-login" class="login-box">
-          <div class="mylogo"><img width="100" height="100" src="/haloummilogo.png" /></div>
-          <a-form
-            id="components-login"
-            :form="form"
-            class="login-form"
-            @submit="handleSubmit"
-          >
-          <a-form-item>
-            <a-input
-              v-decorator="[
-                'userName',
-                { rules: [{ required: true, message: 'Please input your username!' }] },
-              ]"
-              placeholder="Username"
-            >
-              <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-input
-              v-decorator="[
-                'password',
-                { rules: [{ required: true, message: 'Please input your Password!' }] },
-              ]"
-              type="password"
-              placeholder="Password"
-            >
-              <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-            </a-input>
-          </a-form-item>
-          <a-form-item>
-            <a-checkbox
-              v-decorator="[
-                'remember',
-                {
-                  valuePropName: 'checked',
-                  initialValue: true,
-                },
-              ]"
-            >
-              Remember me
-            </a-checkbox>
-            <a class="login-form-forgot" href="">
-              Forgot password
-            </a>
-            <a-button type="primary" html-type="submit" class="login-form-button">
-              Log in
-            </a-button>
-            Or
-            <a href="">
-              register now!
-            </a>
-              </a-form-item>
-            </a-form>
-        </div>
-    </a-col>
+      <div class="row" id="authlogin">
+        <div class="md-login" data-login>
+        <div class="logo-md"><img src="/haloummilogo.png" alt="logo" width="100px" height="100px"></div>
+        <a-card>
+          <div>
+              <a-alert
+                    v-if="alert"
+                    :type="alert.type"
+                    :message="alert.message" />
+          </div>
+          <a-form :form="form" @submit="handleSubmit">
 
-   </a-row>
+            <a-form-item>
+              <a-input
+                v-decorator="[
+                  'email',
+                  {
+                    rules: [
+                      { required: true, message: 'Please input your email' }
+                    ]
+                  }
+                ]"
+                type="email"
+                placeholder="User Email"
+              >
+                <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+              </a-input>
+            </a-form-item>
+            <a-form-item>
+              <a-input
+                v-decorator="[
+                  'password',
+                  {
+                    rules: [
+                      { required: true, message: 'Please input your Password!' }
+                    ]
+                  }
+                ]"
+                type="password"
+                placeholder="Password"
+              >
+                <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+              </a-input>
+            </a-form-item>
+            <a-button type="primary" html-type="submit" block>Log in</a-button>
+          </a-form>
+        </a-card>
+      </div>
 
-    </section>
-  </div>
+      </div>
+
+
 </template>
 
 <script>
 export default {
+    name: "login",
   beforeCreate() {
-    this.form = this.$form.createForm(this, { name: 'normal_login' });
+    this.form = this.$form.createForm(this, { name: "normal_login" });
+  },
+  head() {
+    return {
+      title: "Login Your Accounts"
+    };
+  },
+  data() {
+    return {
+      email: '',
+      password: '',
+      alert: null,
+      user: '',
+      accesstoken: '',
+    };
   },
   methods: {
+    /*async login(){
+      try {
+            await this.$auth.loginWith('local', {
+            data: {
+            "email": this.email,
+            "password": this.password
+            },
+          })
+            } catch (e) {
+              this.alert = e.response.data
+          }
+    },*/
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          console.log('Received values of form: ', values);
-          this.$router.push('/dashboard');
+         this.email = values.email
+         this.password = values.password
+         this.$router.push('/dashboard')
+         //this.login()
         }
       });
-    },
-  },
-};
+    }
+  }
+}
 </script>
-<style>
 
-.full-content {
-  position: fixed;
-  min-width: 100%;
-  max-height: 100%;
-}
-
-.mylogo {
-  margin-left: 30%;
-  padding: 5%;
-}
-#auth-login.login-box {
-  display: block;
+<style lang='scss' scoped>
+  .row {
+    display: flex;
+    flex-direction: column;
+  }
+  .logo-md{
+    min-height: 5px;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+  }
+  .md-login[data-login] {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background: #fff;
-  padding-top: 10%;
-  padding-left: 30%;
-  padding-right: 30%;
+  text-align: center;
+  & .ant-card {
+    text-align: left;
+    width: 320px;
+  }
 }
-
-#components-login .login-form {
-  width: 100%;
-}
-#components-login .login-form-forgot {
-  float: right;
-}
-#components-login .login-form-button {
-  width: 100%;
-}
-
-
 </style>
