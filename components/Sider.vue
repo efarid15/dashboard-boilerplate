@@ -48,6 +48,12 @@
           <a-icon type="setting" />
           <span class="nav-text">Pengaturan</span>
         </a-menu-item>
+        <a-menu-item key="10">
+          <nuxt-link to="/#authlogin">
+            <a-icon type="logout" />
+            <span class="nav-text">Keluar</span>
+          </nuxt-link>
+        </a-menu-item>
       </a-menu>
     </a-layout-sider>
 </template>

@@ -330,6 +330,7 @@
   .fullcontent {
     min-height: 650px;
   }
+
   .stangka {
     color: #fff;
     text-align: right;
