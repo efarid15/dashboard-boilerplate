@@ -57,6 +57,8 @@ export default {
     '@nuxtjs/axios',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     ['vue-currency-filter/nuxt', {
       symbol: 'IDR',
       thousandsSeparator: '.',
@@ -66,12 +68,25 @@ export default {
       symbolSpacing: true
     }],
   ],
+
+
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {
-  },
+
+ axios: {},
+
+ proxy: {
+  '/api': {
+    target: 'https://raw.githubusercontent.com/enalfarid/dashboard-boilerplate/master',
+    pathRewrite: {
+      '^/api' : '/'
+      }
+    }
+},
+
+
   /*
   ** Build configuration
   */

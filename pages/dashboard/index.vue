@@ -108,7 +108,7 @@
     <section id="ichart">
         <client-only>
           <div class="bar-chart">
-                <BarChart :data="barChartData" :options="{ maintainAspectRatio: false }" />
+                <BarChart :data="this.barChartData " :options="{ maintainAspectRatio: false }" />
           </div>
         </client-only>
     </section>
@@ -182,35 +182,57 @@
     },
 
     async asyncData () {
-      const res = await axios.get('http://localhost:3000/data/transaksi2.json')
+      await axios.get('/api/static/data/transaksi2.json')
+      .then(response => {
+          let rData = response.data
+          console.log(response.data)
+          // hitung total data sales by tahun
+          const formattedData = rData.reduce((previousValue, { tgltransaksi, jumlah }) => {
+          if (!previousValue[moment(tgltransaksi, 'M/D/YYYY').year()]) {
+              previousValue[moment(tgltransaksi, 'M/D/YYYY').year()] = { tahun: moment(tgltransaksi, 'M/D/YYYY').year(), total: 0 };
+          }
+              previousValue[moment(tgltransaksi, 'M/D/YYYY').year()].total += +jumlah;
+              return previousValue;
+          }, {});
 
-      let rData = res.data
+          // convert object data to json object
 
-      // hitung total data sales by tahun
-      const formattedData = rData.reduce((previousValue, { tgltransaksi, jumlah }) => {
-      if (!previousValue[moment(tgltransaksi, 'M/D/YYYY').year()]) {
-          previousValue[moment(tgltransaksi, 'M/D/YYYY').year()] = { tahun: moment(tgltransaksi, 'M/D/YYYY').year(), total: 0 };
-      }
-          previousValue[moment(tgltransaksi, 'M/D/YYYY').year()].total += +jumlah;
-          return previousValue;
-      }, {});
+          let rSales = JSON.parse(JSON.stringify((Object.values(formattedData))))
 
-      // convert object data to json object
+          this.barChartData = {
+            'labels': rSales.map(sales => sales.tahun),
+              'datasets': [
+                {
+                  'label': 'Data Sales',
+                  'backgroundColor': '#41b883',
+                  'data': rSales.map(sales => sales.total)
+                }
+              ]
+          }
+          console.log(this.barChartData)
 
-      let rSales = JSON.parse(JSON.stringify((Object.values(formattedData))))
+          return {
 
-      return {
-        barChartData: {
-          labels: rSales.map(sales => sales.tahun),
-          datasets: [
-            {
-              label: 'Data Sales',
-              backgroundColor: '#41b883',
-              data: rSales.map(sales => sales.total)
+            barChartData: {
+              labels: rSales.map(sales => sales.tahun),
+              datasets: [
+                {
+                  label: 'Data Sales',
+                  backgroundColor: '#41b883',
+                  data: rSales.map(sales => sales.total)
+                }
+              ]
             }
-          ]
-        }
-      }
+
+          }
+
+
+      })
+      .catch(error => {
+          console.log(error.response)
+      });
+
+
   },
 
     mounted() {
@@ -219,11 +241,13 @@
 
     data() {
       return {
-        data: [],
+        data:[],
+        rData: [],
         totalSales: [],
         pagination: {},
         loading: false,
         columns,
+        barChartData: {}
 
       };
     },
@@ -247,7 +271,7 @@
       fetch(params = {}) {
         this.loading = true;
         reqwest({
-          url: '/data/transaksi2.json',
+          url: '/api/static/data/transaksi2.json',
           method: 'get',
           data: {
             results: 10,
