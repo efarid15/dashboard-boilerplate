@@ -3,6 +3,118 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+#cassets {
+  box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+  border-radius: 5px;
+}
+
+#cequity {
+  box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(45deg, #4099ff, #73b4ff);
+  border-radius: 5px;
+}
+
+#cliability {
+  box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(45deg, #FF5370, #ff869a);
+  border-radius: 5px;
+}
+
+#cprofit {
+  box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(45deg, #2ed8b6, #59e0c5);
+  border-radius: 5px;
+}
+
+#crevenue {
+  box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(45deg, #4099ff, #73b4ff);
+  border-radius: 5px;
+}
+
+#cost {
+  box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4, 26, 55, 0.16);
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(45deg, #FF5370, #ff869a);
+  border-radius: 5px;
+}
+
+.fullcontent {
+  min-height: 650px;
+}
+
+.stangka {
+  color: #fff;
+  text-align: right;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.stransaksi {
+  text-align: center;
+  font-weight: bold;
+  color: #eee;
+  background: #e05915;
+  margin-left: 10px;
+}
+
+.tjml {
+  text-align: right;
+  font-weight: bold;
+}
+
+.tgltrans {
+  color: darkred;
+}
+
+.hpad {
+  padding: 10px;
+  padding-bottom: 20px;
+}
+
+.cpad {
+  padding: 10px;
+}
+
+.icard {
+  padding-top: 20px;
+  padding-right: 10px;
+  font-size: 30px;
+}
+
+.icardbody {
+  display: flex;
+  align-items: center;
+}
+
+.bar-chart {
+  left: 30%;
+  width: 80%;
+  height: 80%;
+}
+
+#ichart {
+  margin-left: 10%;
+}
+
 .ant-table {
   display: block;
 
