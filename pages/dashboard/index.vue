@@ -108,7 +108,7 @@
     <section id="ichart">
         <client-only>
           <div class="bar-chart">
-                <BarChart :data="this.barChartData " :options="{ maintainAspectRatio: false }" />
+                <BarChart :data="barChartData" :options="{ maintainAspectRatio: false }" />
           </div>
         </client-only>
     </section>
@@ -182,10 +182,10 @@
     },
 
     async asyncData () {
-      await axios.get('https://raw.githubusercontent.com/enalfarid/dashboard-boilerplate/master/static/data/transaksi2.json')
-      .then(response => {
-          let rData = response.data
-          console.log(response.data)
+    const res = await axios.get('https://enaldashboard.now.sh/data/transaksi2.json')
+
+    let rData = res.data
+    //console.log(rData)
           // hitung total data sales by tahun
           const formattedData = rData.reduce((previousValue, { tgltransaksi, jumlah }) => {
           if (!previousValue[moment(tgltransaksi, 'M/D/YYYY').year()]) {
@@ -197,19 +197,8 @@
 
           // convert object data to json object
 
-          let rSales = JSON.parse(JSON.stringify((Object.values(formattedData))))
-
-          this.barChartData = {
-            'labels': rSales.map(sales => sales.tahun),
-              'datasets': [
-                {
-                  'label': 'Data Sales',
-                  'backgroundColor': '#41b883',
-                  'data': rSales.map(sales => sales.total)
-                }
-              ]
-          }
-          console.log(this.barChartData)
+          //let rSales = JSON.parse(JSON.stringify((Object.values(formattedData))))
+          let rSales = JSON.parse(JSON.stringify(Object.values(formattedData)));
 
           return {
 
@@ -225,15 +214,8 @@
             }
 
           }
+      },
 
-
-      })
-      .catch(error => {
-          console.log(error.response)
-      });
-
-
-  },
 
     mounted() {
       this.fetch();
@@ -242,12 +224,11 @@
     data() {
       return {
         data:[],
-        rData: [],
+        dataS:[],
         totalSales: [],
         pagination: {},
         loading: false,
         columns,
-        barChartData: {}
 
       };
     },
@@ -271,7 +252,7 @@
       fetch(params = {}) {
         this.loading = true;
         reqwest({
-          url: 'https://raw.githubusercontent.com/enalfarid/dashboard-boilerplate/master/static/data/transaksi2.json',
+          url: '/data/transaksi2.json',
           method: 'get',
           data: {
             results: 10,
