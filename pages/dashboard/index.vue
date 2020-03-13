@@ -108,7 +108,11 @@
     <section id="ichart">
         <client-only>
           <div class="bar-chart">
-                <BarChart :data="barChartData" :options="{ maintainAspectRatio: false }" />
+                <BarChart
+                    v-if="barChartData !== null || barChartData !== 'undefine' "
+                    :data="barChartData"
+                    :options="{ maintainAspectRatio: false }"
+                 />
           </div>
         </client-only>
     </section>
@@ -182,39 +186,46 @@
     },
 
     async asyncData () {
-    const res = await axios.get('https://enaldashboard.now.sh/data/transaksi2.json')
 
-    let rData = res.data
-    //console.log(rData)
-          // hitung total data sales by tahun
+        try {
+
+          const res = await axios.get('https://enaldashboard.now.sh/data/transaksi2.json')
+          let rData = res.data
           const formattedData = rData.reduce((previousValue, { tgltransaksi, jumlah }) => {
-          if (!previousValue[moment(tgltransaksi, 'M/D/YYYY').year()]) {
-              previousValue[moment(tgltransaksi, 'M/D/YYYY').year()] = { tahun: moment(tgltransaksi, 'M/D/YYYY').year(), total: 0 };
-          }
-              previousValue[moment(tgltransaksi, 'M/D/YYYY').year()].total += +jumlah;
-              return previousValue;
-          }, {});
+              if (!previousValue[moment(tgltransaksi, 'M/D/YYYY').year()]) {
+                  previousValue[moment(tgltransaksi, 'M/D/YYYY').year()] = { tahun: moment(tgltransaksi, 'M/D/YYYY').year(), total: 0 };
+              }
+                  previousValue[moment(tgltransaksi, 'M/D/YYYY').year()].total += +jumlah;
+                  return previousValue;
+              }, {});
 
-          // convert object data to json object
-
-          //let rSales = JSON.parse(JSON.stringify((Object.values(formattedData))))
           let rSales = JSON.parse(JSON.stringify(Object.values(formattedData)));
+              return {
 
-          return {
-
-            barChartData: {
-              labels: rSales.map(sales => sales.tahun),
-              datasets: [
-                {
-                  label: 'Data Sales',
-                  backgroundColor: '#41b883',
-                  data: rSales.map(sales => sales.total)
+                barChartData: {
+                  labels: rSales.map(sales => sales.tahun),
+                  datasets: [
+                    {
+                      label: 'Data Sales',
+                      backgroundColor: '#41b883',
+                      data: rSales.map(sales => sales.total)
+                    }
+                  ]
                 }
-              ]
+
+              }
+
+        } catch (error) {
+
+            console.log(error)
+            return {
+              barChartData : {}
             }
 
-          }
-      },
+        }
+
+
+  },
 
 
     mounted() {
@@ -269,7 +280,13 @@
           this.totalSales = data.reduce((sum, currentItem) => (currentItem.jumlah + sum), 0)
           this.pagination = pagination;
 
-        });
+        }).catch( error => {
+
+          console.log(error)
+          this.data = []
+          this.loading = false;
+
+         });
       },
     },
   }
