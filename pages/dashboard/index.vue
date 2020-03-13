@@ -182,7 +182,7 @@
     },
 
     async asyncData () {
-      await axios.get('/api/static/data/transaksi2.json')
+      await axios.get('https://raw.githubusercontent.com/enalfarid/dashboard-boilerplate/master/static/data/transaksi2.json')
       .then(response => {
           let rData = response.data
           console.log(response.data)
@@ -271,7 +271,7 @@
       fetch(params = {}) {
         this.loading = true;
         reqwest({
-          url: '/api/static/data/transaksi2.json',
+          url: 'https://raw.githubusercontent.com/enalfarid/dashboard-boilerplate/master/static/data/transaksi2.json',
           method: 'get',
           data: {
             results: 10,

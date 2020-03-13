@@ -77,16 +77,6 @@ export default {
 
  axios: {},
 
- proxy: {
-  '/api': {
-    target: 'https://raw.githubusercontent.com/enalfarid/dashboard-boilerplate/master',
-    pathRewrite: {
-      '^/api' : '/'
-      }
-    }
-},
-
-
   /*
   ** Build configuration
   */
